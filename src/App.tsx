@@ -11,6 +11,7 @@ import Services from "./components/Services"
 import Values from "./components/Values"
 import Contact1 from "./components/Contact1"
 
+
 function HomePage() {
   return (
     <>
@@ -28,6 +29,7 @@ export default function App() {
   return (
     <>
       <Header />
+      
 
       <main className="pt-20">
         <Routes>

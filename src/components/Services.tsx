@@ -79,7 +79,7 @@ export default function Services() {
         </div>
 
         {/* 2 CARDS CENTRALIZADOS */}
-        <div className="flex justify-center gap-8 mt-8">
+        <div className="flex flex-col md:flex-row justify-center gap-8 mt-8">
 
           {/* CARD 4 */}
           <div className="bg-gradient-to-br from-[#e67890] to-[#cf2c53] text-white p-12 shadow-xl min-h-[320px] flex flex-col justify-between text-center hover:scale-105 transition w-full md:w-1/3">

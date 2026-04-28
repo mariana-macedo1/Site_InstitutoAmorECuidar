@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="md:h-[80vh] h-auto pt-20 md:pt-0 flex items-center justify-center">
+    <section className="md:h-[80vh] h-auto flex items-start justify-center">
 
       {/* DESKTOP */}
       <img

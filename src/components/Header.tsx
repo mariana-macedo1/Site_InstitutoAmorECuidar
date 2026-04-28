@@ -47,7 +47,7 @@ export default function Header() {
         {/* BOTÃO 3 PONTOS FIXO */}
         <button
           onClick={() => setMenuOpen(true)}
-          className="fixed top-3 right-4 z-[10000] bg-white text-[#cd2e53] p-3 rounded-full shadow-lg"
+          className="fixed top-3 left-4 z-[10000] bg-white text-[#cd2e53] p-3 rounded-full shadow-lg"
         >
           <MoreVertical size={24} />
         </button>

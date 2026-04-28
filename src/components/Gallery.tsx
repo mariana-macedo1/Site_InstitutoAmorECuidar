@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight, Instagram } from 'lucide-react';
 
 interface GalleryItem {
@@ -15,33 +15,55 @@ const galleryData: GalleryItem[] = Array.from({ length: 15 }, (_, index) => ({
 
 const Gallery: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 3;
+  const [itemsPerPage, setItemsPerPage] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 3
+  );
+
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      setItemsPerPage(window.innerWidth < 768 ? 1 : 3);
+    };
+
+    updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => window.removeEventListener('resize', updateItemsPerPage);
+  }, []);
+
+  useEffect(() => {
+    setCurrentIndex((prev) => {
+      const maxIndex = Math.max(0, Math.ceil(galleryData.length / itemsPerPage) - 1) * itemsPerPage;
+      return Math.min(prev, maxIndex);
+    });
+  }, [itemsPerPage]);
 
   const totalPages = useMemo(() => {
     return Math.ceil(galleryData.length / itemsPerPage);
-  }, []);
+  }, [itemsPerPage]);
 
   const currentPage = useMemo(() => {
     return Math.floor(currentIndex / itemsPerPage);
-  }, [currentIndex]);
+  }, [currentIndex, itemsPerPage]);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => {
       const nextIndex = prev + itemsPerPage;
       return nextIndex >= galleryData.length ? 0 : nextIndex;
     });
-  }, []);
+  }, [itemsPerPage]);
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => {
       const prevIndex = prev - itemsPerPage;
       return prevIndex < 0 ? (totalPages - 1) * itemsPerPage : prevIndex;
     });
-  }, [totalPages]);
+  }, [totalPages, itemsPerPage]);
 
-  const goToPage = useCallback((page: number) => {
-    setCurrentIndex(page * itemsPerPage);
-  }, []);
+  const goToPage = useCallback(
+    (page: number) => {
+      setCurrentIndex(page * itemsPerPage);
+    },
+    [itemsPerPage]
+  );
 
   return (
     <section id="galeria" className="py-20 bg-white overflow-hidden">
