@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <>
       {/* ================= DESKTOP ================= */}
-      <header className="hidden md:block fixed top-0 left-0 w-full z-[900]">
+      <header className="hidden lg:block fixed top-0 left-0 w-full z-[900]">
         <div className="relative w-full">
           <img
             src="/header.png"
@@ -16,10 +16,8 @@ export default function Header() {
             className="w-full h-auto max-h-64 object-contain"
           />
 
-          <nav className="absolute top-8 left-1/2 -translate-x-1/2 translate-x-20 flex items-center gap-3 text-black text-sm md:text-base font-bold">
-            <Link to="/" className="relative group hover:text-[#cd2e53]">
-              HOME
-            </Link>
+          <nav className="absolute top-8 left-1/2 -translate-x-1/2 translate-x-20 flex items-center gap-3 text-black text-base font-bold">
+            <Link to="/" className="hover:text-[#cd2e53]">HOME</Link>
             <span>|</span>
             <Link to="/quem-somos" className="hover:text-[#cd2e53]">QUEM SOMOS</Link>
             <span>|</span>
@@ -34,17 +32,15 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ================= MOBILE ================= */}
-      <header className="md:hidden fixed top-0 left-0 w-full z-[9999]">
-        
-        {/* IMAGEM DO HEADER MOBILE */}
+      {/* ================= MOBILE + TABLET ================= */}
+      <header className="lg:hidden fixed top-0 left-0 w-full z-[9999]">
         <img
           src="/HeaderCelular.png"
           alt="Header mobile"
-          className="w-full h-20 object-cover"
+          className="w-full h-20 sm:h-24 md:h-28 object-cover block"
         />
 
-        {/* BOTÃO 3 PONTOS FIXO */}
+        {/* 🔥 BOTÃO CONTINUA NA ESQUERDA (SEM ALTERAR) */}
         <button
           onClick={() => setMenuOpen(true)}
           className="fixed top-3 left-4 z-[10000] bg-white text-[#cd2e53] p-3 rounded-full shadow-lg"
