@@ -1,85 +1,89 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { MoreVertical, X } from "lucide-react"
+import React, { useState } from 'react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { label: 'Início', href: '#inicio' },
+    { label: 'Quem somos', href: '#quem-somos' },
+    { label: 'Serviços', href: '#servicos' },
+    { label: 'Oficinas', href: '#oficinas' },
+    { label: 'Galeria', href: '#galeria' },
+    { label: 'Contato', href: '#contato' },
+  ];
 
   return (
-    <>
-      {/* ================= DESKTOP ================= */}
-      <header className="hidden lg:block fixed top-0 left-0 w-full z-[900]">
-        <div className="relative w-full">
-          <img
-            src="/header.png"
-            alt="Header desktop"
-            className="w-full h-auto max-h-64 object-contain"
+    <header className="fixed top-0 left-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-pink-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        {/* LOGO */}
+        <a href="#inicio" className="flex items-center gap-3">
+          <img 
+            src="/logo.png" 
+            alt="Instituto Amor e Cuidar" 
+            className="h-12 w-auto object-contain"
           />
+        </a>
 
-          <nav className="absolute top-8 left-1/2 -translate-x-1/2 translate-x-20 flex items-center gap-3 text-black text-base font-bold">
-            <Link to="/" className="hover:text-[#cd2e53]">HOME</Link>
-            <span>|</span>
-            <Link to="/quem-somos" className="hover:text-[#cd2e53]">QUEM SOMOS</Link>
-            <span>|</span>
-            <Link to="/servicos" className="hover:text-[#cd2e53]">SERVIÇOS</Link>
-            <span>|</span>
-            <Link to="/valores" className="hover:text-[#cd2e53]">VALORES</Link>
-            <span>|</span>
-            <Link to="/galeria" className="hover:text-[#cd2e53]">GALERIA</Link>
-            <span>|</span>
-            <Link to="/contato" className="hover:text-[#cd2e53]">CONTATO</Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* ================= MOBILE + TABLET ================= */}
-      <header className="lg:hidden fixed top-0 left-0 w-full z-[9999]">
-        <img
-          src="/HeaderCelular.png"
-          alt="Header mobile"
-          className="w-full h-20 sm:h-24 md:h-28 object-cover block"
-        />
-
-        {/* 🔥 BOTÃO CONTINUA NA ESQUERDA (SEM ALTERAR) */}
-        <button
-          onClick={() => setMenuOpen(true)}
-          className="fixed top-3 left-4 z-[10000] bg-white text-[#cd2e53] p-3 rounded-full shadow-lg"
-        >
-          <MoreVertical size={24} />
-        </button>
-      </header>
-
-      {/* FUNDO ESCURO */}
-      {menuOpen && (
-        <div
-          onClick={() => setMenuOpen(false)}
-          className="fixed inset-0 bg-black/40 z-[10001]"
-        />
-      )}
-
-      {/* MENU LATERAL */}
-      <aside
-        className={`fixed top-0 right-0 h-screen w-72 bg-white z-[10002] shadow-2xl p-6 transition-transform duration-300 ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex justify-between items-center mb-10">
-          <h2 className="text-xl font-bold text-[#cd2e53]">Menu</h2>
-
-          <button onClick={() => setMenuOpen(false)}>
-            <X size={28} />
-          </button>
-        </div>
-
-        <nav className="flex flex-col gap-6 text-black font-bold">
-          <Link onClick={() => setMenuOpen(false)} to="/">HOME</Link>
-          <Link onClick={() => setMenuOpen(false)} to="/quem-somos">QUEM SOMOS</Link>
-          <Link onClick={() => setMenuOpen(false)} to="/servicos">SERVIÇOS</Link>
-          <Link onClick={() => setMenuOpen(false)} to="/valores">VALORES</Link>
-          <Link onClick={() => setMenuOpen(false)} to="/galeria">GALERIA</Link>
-          <Link onClick={() => setMenuOpen(false)} to="/contato">CONTATO</Link>
+        {/* NAVEGAÇÃO DESKTOP */}
+        <nav className="hidden md:flex items-center gap-8 font-medium text-slate-700 text-sm">
+          {navLinks.map((link) => (
+            <a 
+              key={link.label} 
+              href={link.href} 
+              className="hover:text-[#D82B65] transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
-      </aside>
-    </>
-  )
+
+        {/* BOTÃO CTA DESKTOP */}
+        <div className="hidden md:block">
+          <a
+            href="https://wa.me/5583999291187"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#D82B65] hover:bg-[#c02153] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition shadow-sm"
+          >
+            Entre em contato
+            <ArrowUpRight size={16} />
+          </a>
+        </div>
+
+        {/* BOTAO MENU MOBILE */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden text-slate-700 p-2 focus:outline-none"
+        >
+          {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* MENU MOBILE SLIDE */}
+      {mobileOpen && (
+        <div className="md:hidden bg-white border-b border-pink-100 px-6 py-6 flex flex-col gap-4 shadow-lg">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              className="text-slate-800 font-medium py-2 hover:text-[#D82B65]"
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            href="https://wa.me/5583999291187"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-[#D82B65] text-white py-3 rounded-full font-semibold mt-2"
+          >
+            Entre em contato
+            <ArrowUpRight size={16} />
+          </a>
+        </div>
+      )}
+    </header>
+  );
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Instagram } from 'lucide-react';
 
 interface GalleryItem {
@@ -7,85 +7,95 @@ interface GalleryItem {
   alt: string;
 }
 
+// Mapeamento automático para todas as 15 imagens da pasta public
 const galleryData: GalleryItem[] = Array.from({ length: 15 }, (_, index) => ({
   id: index + 1,
   src: `/imagem${index + 1}.jpeg`,
-  alt: `Imagem ${index + 1}`,
+  alt: `Momento ${index + 1} - Instituto Amor e Cuidar`,
 }));
 
-const Gallery: React.FC = () => {
+export default function Gallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(() =>
-    typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 3
-  );
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
+  // Responsividade: define quantas imagens aparecem juntas na tela
   useEffect(() => {
-    const updateItemsPerPage = () => {
-      setItemsPerPage(window.innerWidth < 768 ? 1 : 3);
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerPage(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsPerPage(2);
+      } else {
+        setItemsPerPage(3);
+      }
     };
 
-    updateItemsPerPage();
-    window.addEventListener('resize', updateItemsPerPage);
-    return () => window.removeEventListener('resize', updateItemsPerPage);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    setCurrentIndex((prev) => {
-      const maxIndex = Math.max(0, Math.ceil(galleryData.length / itemsPerPage) - 1) * itemsPerPage;
-      return Math.min(prev, maxIndex);
-    });
-  }, [itemsPerPage]);
-
-  const totalPages = useMemo(() => {
-    return Math.ceil(galleryData.length / itemsPerPage);
-  }, [itemsPerPage]);
-
-  const currentPage = useMemo(() => {
-    return Math.floor(currentIndex / itemsPerPage);
-  }, [currentIndex, itemsPerPage]);
-
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => {
-      const nextIndex = prev + itemsPerPage;
-      return nextIndex >= galleryData.length ? 0 : nextIndex;
-    });
-  }, [itemsPerPage]);
+  const totalPages = Math.ceil(galleryData.length / itemsPerPage);
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => {
-      const prevIndex = prev - itemsPerPage;
-      return prevIndex < 0 ? (totalPages - 1) * itemsPerPage : prevIndex;
-    });
-  }, [totalPages, itemsPerPage]);
+    setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+  }, [totalPages]);
 
-  const goToPage = useCallback(
-    (page: number) => {
-      setCurrentIndex(page * itemsPerPage);
-    },
-    [itemsPerPage]
-  );
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+  }, [totalPages]);
+
+  useEffect(() => {
+    if (currentIndex >= totalPages) {
+      setCurrentIndex(Math.max(0, totalPages - 1));
+    }
+  }, [itemsPerPage, totalPages, currentIndex]);
 
   return (
-    <section id="galeria" className="py-20 bg-white overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
+    <section 
+      id="galeria" 
+      className="py-24 bg-[url('/fundo3.png')] bg-cover bg-center bg-no-repeat relative overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        
+        {/* CABEÇALHO */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <span className="text-pink-300 font-bold text-xs uppercase tracking-widest block mb-3 bg-white/10 w-fit px-3 py-1 rounded-full border border-white/20 backdrop-blur-xs">
+              NOSSA GALERIA
+            </span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+              Momentos que <br />
+              <span className="text-[#D82B65]">contam nossa história.</span>
+            </h2>
+          </div>
 
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-800">Galeria</h2>
-          <div className="w-20 h-1 bg-[#cf2c53] mx-auto mt-4 rounded-full"></div>
+          <a
+            href="https://www.instagram.com/institutoamorecuidar/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white text-[#D82B65] hover:bg-[#D82B65] hover:text-white px-6 py-2.5 rounded-full text-xs font-bold transition shadow-md self-start md:self-auto"
+          >
+            <Instagram size={16} />
+            Veja mais no Instagram
+          </a>
         </div>
 
-        <div className="relative">
-          <div className="overflow-hidden">
+        {/* ESTRUTURA DO CARROSSEL */}
+        <div className="relative group">
+          
+          {/* CONTAINER DESLIZANTE */}
+          <div className="overflow-hidden rounded-2xl py-2">
             <div
-              className="flex transition-transform duration-500 ease-out will-change-transform"
+              className="flex transition-transform duration-500 ease-out"
               style={{
-                transform: `translate3d(-${currentPage * 100}%, 0, 0)`,
+                transform: `translateX(-${currentIndex * 100}%)`,
               }}
             >
               {Array.from({ length: totalPages }).map((_, pageIndex) => (
                 <div
                   key={pageIndex}
-                  className="min-w-full grid grid-cols-1 md:grid-cols-3 px-3"
+                  className="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
                   {galleryData
                     .slice(
@@ -95,14 +105,13 @@ const Gallery: React.FC = () => {
                     .map((item) => (
                       <div
                         key={item.id}
-                        className="h-[400px] overflow-hidden rounded-3xl shadow-md bg-gray-100 mx-3"
+                        className="h-72 rounded-2xl overflow-hidden shadow-lg bg-slate-900/40 border border-white/20 group/card relative"
                       >
                         <img
                           src={item.src}
                           alt={item.alt}
                           loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                          className="w-full h-full object-cover group-hover/card:scale-105 transition duration-500"
                         />
                       </div>
                     ))}
@@ -111,52 +120,42 @@ const Gallery: React.FC = () => {
             </div>
           </div>
 
+          {/* BOTÃO ANTERIOR (SETA ESQUERDA) */}
           <button
             onClick={prevSlide}
-            className="absolute left-[-20px] top-1/2 -translate-y-1/2 p-3 rounded-full shadow-lg z-20 transition-all bg-white text-gray-600 hover:scale-110 active:scale-95"
+            aria-label="Anterior"
+            className="absolute -left-3 md:-left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white text-[#0B0E3B] hover:bg-[#D82B65] hover:text-white flex items-center justify-center shadow-2xl transition-all duration-300 z-20 border border-pink-100"
           >
-            <ChevronLeft size={28} />
+            <ChevronLeft size={24} />
           </button>
 
+          {/* BOTÃO PRÓXIMO (SETA DIREITA) */}
           <button
             onClick={nextSlide}
-            className="absolute right-[-20px] top-1/2 -translate-y-1/2 p-3 rounded-full shadow-lg z-20 transition-all bg-white text-gray-600 hover:scale-110 active:scale-95"
+            aria-label="Próximo"
+            className="absolute -right-3 md:-right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white text-[#0B0E3B] hover:bg-[#D82B65] hover:text-white flex items-center justify-center shadow-2xl transition-all duration-300 z-20 border border-pink-100"
           >
-            <ChevronRight size={28} />
+            <ChevronRight size={24} />
           </button>
         </div>
 
-        <div className="flex justify-center gap-3 mt-10">
-          {Array.from({ length: totalPages }).map((_, i) => (
+        {/* INDICADORES / PONTINHOS DE NAVEGAÇÃO ABAIXO */}
+        <div className="flex justify-center items-center gap-2 mt-8">
+          {Array.from({ length: totalPages }).map((_, idx) => (
             <button
-              key={i}
-              onClick={() => goToPage(i)}
-              className={`h-3 rounded-full transition-all duration-300 
-                ${currentPage === i ? 'w-10 bg-[#cf2c53]' : 'w-3 bg-gray-200 hover:bg-gray-300'}`}
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              aria-label={`Página ${idx + 1}`}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                currentIndex === idx
+                  ? 'w-8 bg-[#D82B65]'
+                  : 'w-2.5 bg-white/40 hover:bg-white/70'
+              }`}
             />
           ))}
         </div>
 
-        <div className="flex justify-center mt-12">
-          <a
-            href="https://www.instagram.com/institutoamorecuidar/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              flex items-center gap-3
-              bg-[#cf2c53] text-white px-14 py-4 rounded-2xl
-              font-bold text-xl shadow-lg active:scale-95 transition-all
-              hover:bg-gradient-to-r hover:from-white hover:to-gray-100
-              hover:text-[#cf2c53] hover:border hover:border-[#cf2c53]
-            "
-          >
-            <Instagram size={24} />
-            Veja mais nas nossas redes
-          </a>
-        </div>
       </div>
     </section>
   );
-};
-
-export default Gallery;
+}

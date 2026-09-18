@@ -1,125 +1,93 @@
+import React from 'react';
+import { Heart, Sparkles, Users, BookOpen, Smile } from 'lucide-react';
+
 export default function Values() {
+  const valores = [
+    {
+      id: '01',
+      title: 'Cuidado Humanizado e Acolhimento',
+      desc: 'Cuidado, empatia e respeito às diferenças para que todos se sintam seguros e valorizados.',
+      icon: Heart,
+    },
+    {
+      id: '02',
+      title: 'Desenvolvimento Integral',
+      desc: 'Estímulo às habilidades cognitivas, sociais, emocionais e comportamentais de cada criança.',
+      icon: Sparkles,
+    },
+    {
+      id: '03',
+      title: 'Inclusão e Respeito às Diferenças',
+      desc: 'Diversidade valorizada e oportunidades de aprendizado, convivência e crescimento para todos.',
+      icon: Users,
+    },
+    {
+      id: '04',
+      title: 'Educação com Propósito',
+      desc: 'Experiências práticas que estimulam curiosidade, conhecimento e aprendizado significativo.',
+      icon: BookOpen,
+    },
+    {
+      id: '05',
+      title: 'Amor, Serviço e Transformação',
+      desc: 'Amor ao próximo e desejo de servir para gerar impacto positivo nas crianças e famílias.',
+      icon: Smile,
+    },
+  ];
+
   return (
-    <section id="valores" className="py-20 bg-pink-50">
+    <section 
+      id="valores" 
+      className="py-24 bg-[url('/fundo2.png')] bg-cover bg-center bg-no-repeat relative overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-12 items-start relative z-10">
+        
+        {/* LADO ESQUERDO: TÍTULO */}
+        <div className="md:col-span-5 md:sticky md:top-28">
+          <span className="text-[#D82B65] font-bold text-xs uppercase tracking-widest block mb-3 bg-white/90 w-fit px-3 py-1 rounded-full border border-pink-100 shadow-xs">
+            NOSSOS VALORES
+          </span>
 
-      <div className="max-w-6xl mx-auto px-6">
-
-        <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-bold text-black">
-            Nossos Valores
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#0B0E3B] leading-tight mb-6">
+            O cuidado é <br />
+            a base de <br />
+            tudo.
           </h2>
 
-          <div className="w-24 h-1 bg-[#cf2c53] mx-auto mt-4 rounded-full"></div>
-
-          <p className="mt-6 text-lg text-gray-700 max-w-3xl mx-auto">
-            Mais do que oferecer atividades, nosso compromisso é cuidar,
-            acolher e promover o desenvolvimento de cada criança,
-            respeitando suas individualidades e incentivando seu crescimento
-            em um ambiente seguro, inclusivo e cheio de oportunidades.
+          <p className="text-slate-600 text-sm leading-relaxed max-w-sm bg-white/80 backdrop-blur-xs p-4 rounded-2xl border border-pink-100/60 shadow-xs">
+            Nosso compromisso é acolher e promover o desenvolvimento de cada criança, respeitando suas individualidades.
           </p>
         </div>
 
+        {/* LADO DIREITO: LISTA 01 a 05 */}
+        <div className="md:col-span-7 space-y-6">
+          {valores.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.id}
+                className="bg-white/90 backdrop-blur-xs p-6 rounded-2xl border border-pink-100/80 flex items-start gap-5 shadow-xs hover:bg-white hover:shadow-md transition duration-300"
+              >
+                <span className="text-[#D82B65] font-bold text-xs pt-1">{item.id}</span>
+                
+                <div className="w-10 h-10 rounded-xl bg-[#FFF5F7] text-[#D82B65] border border-pink-100 flex items-center justify-center shrink-0">
+                  <Icon size={20} />
+                </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-
-          {/* CARD */}
-          <div className="bg-gradient-to-br from-[#f7a6b8] to-[#e67890] text-white p-12 rounded-2xl shadow-xl min-h-[300px] flex flex-col justify-between text-center hover:scale-105 hover:shadow-2xl transition">
-
-            <div>
-              <h3 className="text-2xl font-bold mb-4">
-                Cuidado Humanizado e Acolhimento
-              </h3>
-
-              <p className="text-lg text-white/95">
-                Acreditamos que cada criança é única. Nosso trabalho é baseado
-                no cuidado, na empatia e no respeito às diferenças, criando
-                um ambiente acolhedor onde todos se sintam seguros,
-                valorizados e compreendidos.
-              </p>
-            </div>
-
-          </div>
-
-
-          {/* CARD */}
-          <div className="bg-gradient-to-br from-[#f7a6b8] to-[#e67890] text-white p-12 rounded-2xl shadow-xl min-h-[300px] flex flex-col justify-between text-center hover:scale-105 hover:shadow-2xl transition">
-
-            <div>
-              <h3 className="text-2xl font-bold mb-4">
-                Desenvolvimento Integral
-              </h3>
-
-              <p className="text-lg text-white/95">
-                Nossas atividades estimulam o desenvolvimento cognitivo,
-                social, emocional e comportamental, fortalecendo habilidades
-                e incentivando a autonomia para que cada criança alcance
-                seu potencial.
-              </p>
-            </div>
-
-          </div>
-
-
-          {/* CARD */}
-          <div className="bg-gradient-to-br from-[#f7a6b8] to-[#e67890] text-white p-12 rounded-2xl shadow-xl min-h-[300px] flex flex-col justify-between text-center hover:scale-105 hover:shadow-2xl transition">
-
-            <div>
-              <h3 className="text-2xl font-bold mb-4">
-                Inclusão e Respeito às Diferenças
-              </h3>
-
-              <p className="text-lg text-white/95">
-                Promovemos a inclusão e valorizamos a diversidade,
-                garantindo que todas as crianças tenham acesso a
-                oportunidades de aprendizado, convivência e crescimento.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div className="flex flex-col md:flex-row justify-center gap-8 mt-8">
-
-          <div className="bg-gradient-to-br from-[#f7a6b8] to-[#e67890] text-white p-12 rounded-2xl shadow-xl min-h-[320px] flex flex-col justify-between text-center hover:scale-105 hover:shadow-2xl transition w-full md:w-1/3">
-
-            <div>
-              <h3 className="text-2xl font-bold mb-4">
-                Educação e Aprendizado com Propósito
-              </h3>
-
-              <p className="text-lg text-white/95">
-                Acreditamos que a educação transforma vidas. Por meio
-                de oficinas e experiências práticas, estimulamos a
-                curiosidade, o conhecimento e o aprendizado de forma
-                leve e significativa.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div className="bg-gradient-to-br from-[#f7a6b8] to-[#e67890] text-white p-12 rounded-2xl shadow-xl min-h-[320px] flex flex-col justify-between text-center hover:scale-105 hover:shadow-2xl transition w-full md:w-1/3">
-
-            <div>
-              <h3 className="text-2xl font-bold mb-4">
-                Amor, Serviço e Transformação
-              </h3>
-
-              <p className="text-lg text-white/95">
-                Nosso trabalho é guiado pelo amor ao próximo e pelo
-                desejo de servir, buscando gerar impacto positivo na
-                vida das crianças e de suas famílias.
-              </p>
-            </div>
-
-          </div>
-
+                <div>
+                  <h3 className="text-lg font-bold text-[#0B0E3B] mb-1">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
       </div>
-
     </section>
-  )
+  );
 }
