@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowUpRight, MessageCircle, Heart, Sparkles, ChevronDown } from 'lucide-react';
 
 export default function Hero() {

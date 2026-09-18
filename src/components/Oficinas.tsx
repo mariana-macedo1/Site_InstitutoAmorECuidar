@@ -1,4 +1,3 @@
-import React from 'react';
 import { Users, Music, Monitor, BookOpen, Dumbbell, Activity } from 'lucide-react';
 
 export default function Oficinas() {

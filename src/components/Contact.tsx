@@ -1,4 +1,3 @@
-import React from 'react';
 import { MessageCircle, Instagram, MapPin, ArrowUpRight } from 'lucide-react';
 
 export default function Contact() {

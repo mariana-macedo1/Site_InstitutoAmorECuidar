@@ -1,4 +1,3 @@
-import React from 'react';
 import { Heart, Sparkles, Users, BookOpen, Smile } from 'lucide-react';
 
 export default function Values() {

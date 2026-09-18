@@ -1,4 +1,3 @@
-import React from 'react';
 import { BookOpen, Palette, Monitor, Dumbbell, Users, Heart, Sparkles, ArrowUpRight } from 'lucide-react';
 
 export default function Services() {
